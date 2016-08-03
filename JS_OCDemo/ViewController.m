@@ -3,7 +3,7 @@
 //  JS_OCDemo
 //
 //  Created by hdf on 16/8/3.
-//  Copyright © 2016年 hdf. All rights reserved.
+//  Copyright © 2016年 HuDingfeng  http://hudingfeng.github.io  All rights reserved.
 //
 
 #import "ViewController.h"
@@ -16,12 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

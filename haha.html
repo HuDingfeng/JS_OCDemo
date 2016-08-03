@@ -1,0 +1,160 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<link type="image/x-icon" href="../favicon.ico" rel="shortcut icon">
+	<meta content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=2.0" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<script type="text/javascript" src="http://v2.sanyibao.com/style/mobile/js/jquery1.42.min.js"></script>
+    <title>问卷测试</title>
+</head>	
+<body>
+
+
+<div style="min-width:300px;">
+是否是手机：<br>
+是否是微信：<br>
+手机系统类型：0<br>
+是否是app：1<br>
+<div id="question">
+<input type="button" class='btn' value="提交" id="btn_q">
+</div>
+<div id="promote" style="display:none;">
+答卷提交成功，马上邀请好友，获取更多抽奖机会大大地
+<input type="button" class='btn' value="邀请好友" id="btn_p">
+
+</div>
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+<button class = "btn" type="button" id="recharge">在线充值</button>
+<button class = "btn" type="button" id="dologin">立即登录</button>
+<button class = "btn" type="button" id="register">免费注册</button>
+<button class = "btn" type="button" id="tinvest">立即投资</button>
+<button class = "btn" type="button" id="promote_1">邀请好友</button>
+</div>
+</div>
+
+<script >
+$(function(){
+	var mobile_type =  '4';
+	var is_app = '1';
+	var is_mobile = '1';
+	var user_id = 0;
+	var check_type = function(){
+		if((mobile_type == 3 || mobile_type == 4) && is_app == 1 && is_mobile){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	// 判断登录状态
+	var check_user = function(){
+		user_id = JsInteraction.get_user_info();
+		if(user_id){
+			return user_id;
+		}else{
+			return false;
+		}
+	}
+	//在线充值按钮
+	$("#recharge").bind('click',function(){
+		if(check_type()){
+			if(check_user()){
+				JsInteraction.recharge();
+			}else{
+				if( mobile_type == 4){
+					JsInteraction.messagecontentstatus('请登录','信息提示',1);
+				}else{
+					JsInteraction.message('请登录','信息提示',1);
+				}
+				
+			}
+		}
+	});
+	// 登录按钮
+	$("#dologin").bind('click',function(){
+		if(check_type()){
+                       JsInteraction.login();
+                       alert('login');
+		}
+	});
+	// 注册按钮
+	$("#register").bind('click',function(){
+		if(check_type()){
+			JsInteraction.regist();
+		}
+	});
+
+	// 立即投资
+	$("#tinvest").bind('click',function(){
+		if(check_type()){
+			if(mobile_type == 4){
+				JsInteraction.tinvesttype(0,301);
+			}else{
+				JsInteraction.tinvest(0,301);
+			}
+		}
+	});
+
+	// 邀请好友
+	$("#promote_1").bind('click',function(){
+		if(check_type()){
+			if(check_user()){
+				JsInteraction.promote();
+			}else{
+				if( mobile_type == 4){
+					JsInteraction.messagecontentstatus('请登录','信息提示',1);
+				}else{
+					JsInteraction.message('请登录','信息提示',1);
+				}
+			}
+		}
+	})
+
+	// 问卷提交
+	$("#btn_q").click(function(){
+		if((mobile_type == 3 || mobile_type == 4) && is_app == 1 && is_mobile){
+			user_id = JsInteraction.get_user_info();
+			if(user_id){
+				//sub_question(user_id,mobile_type);
+
+				
+			}else{
+				//1 login， 2 tip
+				JsInteraction.message("title","content",1);
+
+				//登陆 注册 show
+			}
+
+			//投资
+			
+			
+		}else{
+			sub_question(user_id,mobile_type);
+		}
+	});
+	/*
+	$("#btn_p").click(function(){
+		if(mobile_type == 3){
+			JsInteraction.promote();
+		}else if(mobile_type == 4){
+			JsInteraction.promote();
+		}
+	});*/
+});
+function sub_question(user_id,mobile_type){
+	$.ajax({
+		type : 'POST',
+		url : "/wenjuan/ajax_question",
+		data : {'user_id':user_id,'mobile_type':mobile_type},
+		dataType : 'json',
+		success : function(res){
+			if( res.status == 1 ){
+				$("#question").hide();
+				$("#promote").show();
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>
