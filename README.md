@@ -1,4 +1,4 @@
-# JS_OCDemo JS动态调用O方法传递参数
+# JS_OCDemo JS动态调用OC方法传递参数
 
 IOS在做js与oc代码交互参数传递时，不如安卓方便，demo中导入EasyJSWebView，EasyJSWebView封装了类似于安卓的addJavascriptInterfaces方法,示例：
  
